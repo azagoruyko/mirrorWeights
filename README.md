@@ -3,6 +3,23 @@ This is a Maya tool that can be used to copy/mirror weights from one attribute t
 
 ![mirrorWeights](https://user-images.githubusercontent.com/9614751/159112043-65674254-fd29-406e-81b0-d6716b82a38f.PNG)
 
+## How to run
+You can run the script using one of the following approaches.
+```python
+env = {}
+execfile("YOUR_PATH/mirrorWeights.py", env)
+env["show"]()
+```
+
+```python
+import sys
+path = "YOUR_PATH/mirrorWeights"
+if path not in sys.path:
+  sys.path.append(path)  # mirrorWeights folder should be added to sys.path to load it as a module
+
+import mirrorWeights
+mirrorWeights.show()
+```
 ## UI description
 
 **Mirror?** Whether to mirror from left to right or just *copy* weights.<br>
