@@ -20,6 +20,13 @@ if path not in sys.path:
 import mirrorWeights
 mirrorWeights.show()
 ```
+
+Or add *mirrorWeights* folder to your scripts path and just run as
+```python
+import mirrorWeights
+mirrorWeights.show()
+```
+
 ## UI description
 
 **Mirror?** Whether to mirror from left to right or just *copy* weights.<br>
