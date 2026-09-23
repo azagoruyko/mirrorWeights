@@ -2,9 +2,11 @@ import maya.cmds as cmds
 import maya.mel as mel
 import maya.api.OpenMaya as om
 
-mirrorWeights_attrTemplates = {"deformer": "weightList[0].weights",
-                               "blendShape": "inputTarget[0].baseWeights",
-                               "blendShape targets": "inputTarget[0].inputTargetGroup[5].targetWeights"}
+mirrorWeights_attrTemplates = {
+    "deformer": "weightList[0].weights",
+    "blendShape": "inputTarget[0].baseWeights",
+    "blendShape targets": "inputTarget[0].inputTargetGroup[5].targetWeights"
+}
 
 def Callback(f, *args, **kwargs):
     return lambda *_,**__: f(*args, **kwargs)
@@ -15,12 +17,7 @@ def getMDagPath(node):
     return sel.getDagPath(0)
 
 def clamp(val, mn, mx):
-    if val < mn:
-        return mn
-    elif val > mx:
-        return mx
-    else:
-        return val
+    return max(mn, min(mx, val))
 
 def mirrorWeights(srcMesh, srcDeformer, destMesh, destDeformer, srcAttr="weightList[0].weights", destAttr="weightList[0].weights", mirror=True, doClamp=False):
     srcMesh = cmds.deformableShape(srcMesh, og=True)[0].split(".")[0]
@@ -37,7 +34,7 @@ def mirrorWeights(srcMesh, srcDeformer, destMesh, destDeformer, srcAttr="weightL
     meshIntersector = om.MMeshIntersector()
     meshIntersector.create(srcMeshPath.node(), srcMeshPath.inclusiveMatrix())
 
-    srcAttrValues = [0] * srcMeshFn.numVertices
+    srcAttrValues = [0.0] * srcMeshFn.numVertices
     for i in range(srcMeshFn.numVertices):
         srcAttrValues[i] = cmds.getAttr("{}.{}[{}]".format(srcDeformer, srcAttr, i))
 
@@ -171,5 +168,3 @@ def show():
 
     cmds.button(l="Do it", c=Callback(doIt))
     cmds.showWindow("mirrorWeights_window")
-
-show()
