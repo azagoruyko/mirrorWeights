@@ -42,7 +42,7 @@ def mirrorWeights(srcMesh, srcDeformer, destMesh, destDeformer, srcAttr="weightL
         srcAttrValues[i] = cmds.getAttr("{}.{}[{}]".format(srcDeformer, srcAttr, i))
 
     components = cmds.ls(sl=True, fl=True, type="float3")  # get vertices
-    indices = set([v.indices()[0] for v in components])
+    indices = {int(v.split("[")[-1].split("]")[0]) for v in components}
 
     gMainProgressBar = mel.eval("$tmpVar=$gMainProgressBar")
     cmds.progressBar(gMainProgressBar, e=True, beginProgress=True, isInterruptable=False,
